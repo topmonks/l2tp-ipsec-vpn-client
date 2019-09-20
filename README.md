@@ -16,22 +16,14 @@ here is all you need:
 4. Password
 
 ## Run
-Setup environment variables for your credentials and config:
-
-    export VPN_SERVER_IPV4='1.2.3.4'
-    export VPN_PSK='my pre shared key'
-    export VPN_USERNAME='myuser@myhost.com'
-    export VPN_PASSWORD='mypass'
-
-Now run it (you can daemonize of course after debugging):
 
     docker run --rm -it --privileged --net=host \
                -v /lib/modules:/lib/modules:ro \
-               -e VPN_SERVER_IPV4 \
-               -e VPN_PSK \
-               -e VPN_USERNAME \
-               -e VPN_PASSWORD \
-                  ubergarm/l2tp-ipsec-vpn-client
+               -e SERVER=1.2.3.4 \
+               -e PSK=sharedkey \
+               -e USER=radius_username \
+               -e PASS=somepass \
+                  topmonks/vpn
 
 ## Route
 From the host machine configure traffic to route through VPN link:
@@ -62,12 +54,6 @@ pluto[17]: No XFRM/NETKEY kernel interface detected
 pluto[17]: seccomp security for crypto helper not supported
 ```
 
-## Strongswan
-The previous `strongswan` based version of this docker image is still available on docker hub here:
-```bash
-docker pull ubergarm/l2tp-ipsec-vpn-client:strongswan
-```
-
 ## TODO
 - [x] `ipsec` connection works
 - [x] `xl2tpd` ppp0 device creates
@@ -75,7 +61,7 @@ docker pull ubergarm/l2tp-ipsec-vpn-client:strongswan
 - [x] Pass in credentials as environment variables
 - [x] Dynamically template out the default config files with `sed` on start
 - [x] Update to use `libreswan` instead of `strongswan`
-- [ ] See if this can work without privileged and net=host modes to be more portable
+- [ ] See if this can work without privileged and net=host modes to be more portable - impossible
 
 ## References
 * [royhills/ike-scan](https://github.com/royhills/ike-scan)

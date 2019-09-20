@@ -1,11 +1,11 @@
 #!/bin/sh
 
 # template out all the config files using env vars
-sed -i 's/right=.*/right='$VPN_SERVER_IPV4'/' /etc/ipsec.conf
-echo '%any '$VPN_SERVER_IPV4': PSK "'$VPN_PSK'"' > /etc/ipsec.secrets
-sed -i 's/lns = .*/lns = '$VPN_SERVER_IPV4'/' /etc/xl2tpd/xl2tpd.conf
-sed -i 's/name .*/name '$VPN_USERNAME'/' /etc/ppp/options.l2tpd.client
-sed -i 's/password .*/password '$VPN_PASSWORD'/' /etc/ppp/options.l2tpd.client
+sed -i 's/right=.*/right='$SERVER'/' /etc/ipsec.conf
+echo '%any '$SERVER': PSK "'$PSK'"' > /etc/ipsec.secrets
+sed -i 's/lns = .*/lns = '$SERVER'/' /etc/xl2tpd/xl2tpd.conf
+sed -i 's/name .*/name '$USER'/' /etc/ppp/options.l2tpd.client
+sed -i 's/password .*/password '$PASS'/' /etc/ppp/options.l2tpd.client
 
 # startup ipsec tunnel
 ipsec initnss
